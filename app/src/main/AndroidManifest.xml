@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".AddMemberActivity"></activity>
+        <provider
+            android:authorities="com.example.clubolimpus"
+            android:name=".data.OlimpusContentProvider"
+            android:exported="false"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

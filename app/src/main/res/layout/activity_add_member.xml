@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddMemberActivity"
     android:layout_marginHorizontal="8dp"
-    android:background="@drawable/ret">
+    android:background="@drawable/ret"
+    tools:context=".AddMemberActivity">
 
     <LinearLayout
         android:id="@+id/linerName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="10dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textViewName"
@@ -34,7 +34,8 @@
             android:layout_weight="2"
             android:ems="10"
             android:hint="Введите имя"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="#0790FD" />
 
         <ImageView
             android:id="@+id/imageViewName"
@@ -71,7 +72,8 @@
             android:layout_weight="2"
             android:ems="10"
             android:hint="Введите Фамилию"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="#0F91F8" />
 
         <ImageView
             android:id="@+id/imageViewSurname"
@@ -107,7 +109,8 @@
             android:layout_weight="2"
             android:ems="10"
             android:hint="Введите группу"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="#0F8EF3" />
 
         <ImageView
             android:id="@+id/imageViewGroup"
@@ -120,11 +123,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linerGroup"
-        android:layout_marginTop="10dp">
+        app:layout_constraintTop_toBottomOf="@id/linerGroup">
 
         <TextView
             android:id="@+id/textViewGender"
@@ -140,7 +143,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:autofillHints="Выберете пол"/>
+            android:autofillHints="Выберете пол"
+            android:backgroundTint="#FFFFFF" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
