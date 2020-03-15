@@ -17,8 +17,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_person_add_black_24dp" />
 
-    <TextView
-        android:id="@+id/textView"
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"

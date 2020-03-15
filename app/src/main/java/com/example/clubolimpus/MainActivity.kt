@@ -1,13 +1,25 @@
 package com.example.clubolimpus
 
-import android.annotation.SuppressLint
+import android.content.ContentUris
 import android.content.Intent
+import android.database.Cursor
 import android.os.Bundle
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.CursorLoader
+import androidx.loader.content.Loader
 import com.example.clubolimpus.data.ClubOlimpusContract.MemberEntry
+import com.example.clubolimpus.data.MemberCursorAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
+
+    companion object {
+        const val memberLoader = 33
+    }
+
+    var memberCursorAdapter: MemberCursorAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,52 +30,39 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, AddMemberActivity::class.java)
             startActivity(intent)
         }
+
+        memberCursorAdapter = MemberCursorAdapter(this, null, false)
+        listView.adapter = memberCursorAdapter
+
+        listView.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                val intent = Intent(this, AddMemberActivity::class.java).apply {
+                    val uri = ContentUris.withAppendedId(MemberEntry.contentUri, id)
+                    data = uri
+                }
+                startActivity(intent)
+            }
+        supportLoaderManager.initLoader(memberLoader, null, this)
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        displayData()
-    }
-
-    private fun displayData() {
-
+    override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
         val projection = arrayOf(
             MemberEntry.KEY_ID,
             MemberEntry.KEY_NAME,
             MemberEntry.KEY_SURNAME,
-            MemberEntry.KEY_GENDER,
             MemberEntry.KEY_SPORT
         )
 
-        val cursor = contentResolver.query(MemberEntry.contentUri, projection, null, null, null)
+        return CursorLoader(this, MemberEntry.contentUri, projection, null, null, null)
 
-        textView.text = "All users\n\n"
-        textView.append(
-            "$MemberEntry.KEY_ID" + " " +
-                    "$MemberEntry.KEY_NAME" + " " +
-                    "$MemberEntry.KEY_SURNAME" + " " +
-                    "$MemberEntry.KEY_GENDER" + " " +
-                    "$MemberEntry.KEY_SPORT\n"
-        )
-
-        val indexId = cursor?.getColumnIndex(MemberEntry.KEY_ID)
-        val indexName = cursor?.getColumnIndex(MemberEntry.KEY_NAME)
-        val indexSurname = cursor?.getColumnIndex(MemberEntry.KEY_SURNAME)
-        val indexGender = cursor?.getColumnIndex(MemberEntry.KEY_GENDER)
-        val indexSport = cursor?.getColumnIndex(MemberEntry.KEY_SPORT)
-
-        while (cursor!!.moveToNext()) {
-            val currentId = cursor.getInt(indexId!!)
-            val currentName = cursor.getString(indexName!!)
-            val currentSurname = cursor.getString(indexSurname!!)
-            val currentGender = cursor.getInt(indexGender!!)
-            val currentSport = cursor.getString(indexSport!!)
-
-            textView.append(
-                "\n $currentId" + " " +
-                        "$currentName" + " " + "$currentSurname" + " " + "$currentGender" + " " + "$currentSport"
-            )
-        }
     }
+
+    override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
+        memberCursorAdapter?.swapCursor(data)
+    }
+
+    override fun onLoaderReset(loader: Loader<Cursor>) {
+        memberCursorAdapter?.swapCursor(null)
+    }
+
 }

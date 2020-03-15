@@ -28,6 +28,7 @@ class OlimpusDbOpenHelper(
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS " + ClubOlimpusContract.MemberEntry.TABLE_NAME)
         onCreate(db)
+
     }
 
 }
